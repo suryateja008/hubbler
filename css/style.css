@@ -1,0 +1,23 @@
+.card {
+    margin:200px auto 0px auto;
+    width:500px;
+}
+
+.cust-add {
+    float: right;
+    margin-bottom:10px;
+    width:90px;
+}
+
+.card-text {
+    clear: both;
+}
+
+.cust-data{
+    border:1px solid #ccc;
+    padding:10px;
+}
+
+.form-input-field {
+line-break: auto;
+}
