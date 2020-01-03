@@ -7,8 +7,16 @@ var localDataStore = [];
 var dynamicFormFields = [
     {'field-name':'name', 'type':'text', 'required':true},
     {'field-name':'age', 'type':'number', 'min':18, 'max':65},
+    {'field-name':'gender', 'type':'dropdown', 'options':['male', 'female', 'other']},
     {'field-name':'address', 'type':'multiline'}
 ];
+
+
+// var dynamicFormFields = [
+//     {'field-name':'name', 'type':'text', 'required':true},
+//     {'field-name':'age', 'type':'number', 'min':18, 'max':65},
+//     {'field-name':'address', 'type':'multiline'}
+// ];
 
 function addNew() {
     createDynamicForm();
@@ -38,6 +46,9 @@ function createDynamicForm() {
                 break;
                 case "multiline":
                     tempForm.append(buildInputMultiline(field));
+                break;
+                case "dropdown":
+                    tempForm.append(buildDropDown(field));
                 break;
                 default:
         }
@@ -125,6 +136,26 @@ function buildInputMultiline(fieldParam) {
     return para;
 }
 
-function buildDropDown() {
+function buildDropDown(fieldParam) {
+    var para = document.createElement("p");
+    para.setAttribute("class","cust-data");
+    var select = document.createElement("select");
+    if(fieldParam["field-name"])
+        select.setAttribute("name",fieldParam["field-name"]);
+    if(fieldParam["required"])
+        select.setAttribute("required",fieldParam["required"]);
+    if(fieldParam["options"]) {
+        for(var i = 0 ; i < fieldParam["options"].length ; i++) {
+            var opt = document.createElement("option");
+            opt.setAttribute("value",fieldParam["options"][i]);
+            opt.innerHTML = fieldParam["options"][i];
+            select.append(opt);
+        }
+    }
+    select.setAttribute("class",'form-control');
+    para.append(fieldParam["field-name"].toUpperCase());
+    para.append(document.createElement('br'));
+    para.append(select);
+    return para;
     
 }
