@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $.get( "http://localhost:80/formlist", function( data ) {
+    $.get( "http://ec2-3-82-250-109.compute-1.amazonaws.com:80/formlist", function( data ) {
         var jsondata = JSON.parse(data);
         printFormList(jsondata);
     });
