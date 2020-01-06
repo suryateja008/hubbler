@@ -21,3 +21,7 @@
 .form-input-field {
 line-break: auto;
 }
+
+.edit-button {
+    margin-left:20px;
+}
