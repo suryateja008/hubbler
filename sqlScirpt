@@ -3,3 +3,5 @@ create database hubbler;
 CREATE TABLE Forms (FormID int NOT NULL AUTO_INCREMENT, form_fields blob NOT NULL, PRIMARY KEY (FormID));
 
 sudo pip install -U flask-cors
+
+sudo pip install mysql-connector

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $.get( "http://localhost:5000/formlist", function( data ) {
+    $.get( "http://localhost:80/formlist", function( data ) {
         var jsondata = JSON.parse(data);
         printFormList(jsondata);
     });
@@ -17,7 +17,7 @@ function printFormList(data) {
         para.setAttribute("class","cust-data");
         var id = data[i]['id'];
         href.innerHTML="Edit";
-        href.setAttribute("href","edit.html?id="+id);
+        href.setAttribute("href","/edit?id="+id);
         var formdata = data[i]["formdata"].replace(/'/g,"\"");
         formdata = JSON.parse(formdata);
         para.append(formdata['form-name']);

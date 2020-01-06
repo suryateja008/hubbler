@@ -3,7 +3,7 @@ import mysql.connector
 from flask_cors import CORS
 import json
 
-app = Flask(__name__)
+app = Flask(__name__ , template_folder='templates')
 CORS(app)
 
 mydb = mysql.connector.connect(
@@ -14,13 +14,15 @@ mydb = mysql.connector.connect(
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    res = {}
-    mycursor = mydb.cursor()
-    mycursor.execute("select * from Forms")
-    for x in mycursor:
-        res["firstName"] = x[0]
-        res["lastName"] = x[1].decode('utf-8').replace("\n","")
-    return res
+    return render_template("index.html")
+
+@app.route('/edit', methods=['GET', 'POST'])
+def editView():
+    return render_template("edit.html")
+
+@app.route('/create', methods=['GET', 'POST'])
+def createView():
+    return render_template("create.html")
 
 
 @app.route('/formlist', methods=['GET'])
@@ -68,4 +70,4 @@ def insertForm():
     return "Success"
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0',port=80)
