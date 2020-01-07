@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $.get( "http://ec2-3-82-250-109.compute-1.amazonaws.com:80/formlist", function( data ) {
+    var url = "http://localhost";
+    $.get( url+"/formlist", function( data ) {
         var jsondata = JSON.parse(data);
         printFormList(jsondata);
     });
@@ -12,16 +13,21 @@ function printFormList(data) {
     $("#totalForms").text(data.length);
     for(var i=0; i < data.length; i++) {
         var para = document.createElement("p");
-        var href = document.createElement("a");
-        href.setAttribute("class","btn btn-primary btn-sm edit-button");
+        var edithref = document.createElement("a");
+        var inputhref = document.createElement("a");
+        edithref.setAttribute("class","btn btn-primary btn-sm edit-button");
+        inputhref.setAttribute("class","btn btn-primary btn-sm edit-button");
         para.setAttribute("class","cust-data");
         var id = data[i]['id'];
-        href.innerHTML="Edit";
-        href.setAttribute("href","/edit?id="+id);
+        inputhref.innerHTML= "Input";
+        edithref.innerHTML="Edit";
+        edithref.setAttribute("href","/edit?id="+id);
+        inputhref.setAttribute("href","/input?id="+id);
         var formdata = data[i]["formdata"].replace(/'/g,"\"");
         formdata = JSON.parse(formdata);
         para.append(formdata['form-name']);
-        para.append(href);
+        para.append(edithref);
+        para.append(inputhref);
         para.append(document.createElement('br'));
         space.append(para);
     }

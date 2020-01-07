@@ -25,6 +25,10 @@ def createView():
     return render_template("create.html")
 
 
+@app.route('/input', methods=['GET', 'POST'])
+def inputView():
+    return render_template("dynamic-form.html")
+
 @app.route('/formlist', methods=['GET'])
 def formListData():
     list = []

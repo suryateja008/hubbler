@@ -1,15 +1,23 @@
+var localDataStore = [];
+var dynamicFormFields = "";
+
 $(document).ready(function() {
+
     document.getElementById("addNewBtn").addEventListener("click", addNew);
     printLocalData();
+    var serverUrl = "http://localhost";
+    var url_string =  window.location.href;
+    var url = new URL(url_string);
+    var id = url.searchParams.get("id");
+
+    $.post( serverUrl+"/formdata", id, function( data ) {
+        var jsondata = JSON.parse(data);
+        var formdata = jsondata["formdata"].replace(/'/g,"\"");
+        formdata = JSON.parse(formdata);
+        dynamicFormFields = formdata["fields"];
+    });
 });
 
-var localDataStore = [];
-var dynamicFormFields = [
-    {'field-name':'name', 'type':'text', 'required':true},
-    {'field-name':'age', 'type':'number', 'min':18, 'max':65},
-    {'field-name':'gender', 'type':'dropdown', 'options':['male', 'female', 'other']},
-    {'field-name':'address', 'type':'multiline'}
-];
 
 
 // var dynamicFormFields = [
@@ -20,6 +28,10 @@ var dynamicFormFields = [
 
 function addNew() {
     createDynamicForm();
+}
+
+function printForm(data) {
+    $("#formdata").val(formdata);
 }
 
 
