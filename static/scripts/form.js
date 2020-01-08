@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var url = "http://ec2-3-82-250-109.compute-1.amazonaws.com/";
+    var url = "http://ec2-3-82-250-109.compute-1.amazonaws.com";
     $.get( url+"/formlist", function( data ) {
         var jsondata = JSON.parse(data);
         printFormList(jsondata);
