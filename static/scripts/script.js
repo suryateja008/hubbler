@@ -89,7 +89,6 @@ function validateForm() {
     console.log(formData);
     localDataStore.push(formData);
     formData["inputid"] = formid;
-    alert(formData);
     $.post( serverUrl+"/insertdata", JSON.stringify(formData), function( data ) {
          alert("Success");
     });
