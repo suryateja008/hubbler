@@ -52,6 +52,17 @@ def formData():
         res["formdata"] = x[1].decode('utf-8').replace("\n","")
     return json.dumps(res)
 
+@app.route('/inputformdata', methods=['POST'])
+def inputData():
+    list = []
+    mycursor = mydb.cursor()
+    id = request.get_data();
+    mycursor.execute("select * from inputdata where FormID="+id)
+    for x in mycursor:
+        res = {}
+        res = x[1].decode('utf-8').replace("\n","")
+        list.append(res)
+    return json.dumps(list)
 
 @app.route('/deleteform',methods=['POST'])
 def deleteForm():
@@ -69,6 +80,21 @@ def insertForm():
     print formData
     mycursor = mydb.cursor()
     mycursor.execute("INSERT INTO Forms(form_fields) VALUES ("+json.dumps(formData)+")")
+    mydb.commit()
+    mycursor.close()
+    return "Success"
+
+@app.route('/insertdata',methods=['POST'])
+def insertData():
+    formData = request.get_data()
+    print formData
+    formData = json.loads(formData)
+    id = formData["inputid"]
+    del formData["inputid"]
+    print formData
+    mycursor = mydb.cursor()
+    print "INSERT INTO inputdata(FormID, data) VALUES ("+id+",'"+json.dumps(formData)+"')"
+    mycursor.execute("INSERT INTO inputdata(FormID, data) VALUES ("+id+",'"+json.dumps(formData)+"')")
     mydb.commit()
     mycursor.close()
     return "Success"

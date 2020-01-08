@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var serverUrl = "http://ec2-3-82-250-109.compute-1.amazonaws.com";
+    var serverUrl = "http://ec2-3-82-250-109.compute-1.amazonaws.com/";
     var url_string =  window.location.href;
     var url = new URL(url_string);
     var id = url.searchParams.get("id");

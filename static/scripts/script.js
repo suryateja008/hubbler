@@ -1,20 +1,24 @@
 var localDataStore = [];
 var dynamicFormFields = "";
+var serverUrl = "http://ec2-3-82-250-109.compute-1.amazonaws.com/";
+var url_string =  window.location.href;
+var url = new URL(url_string);
+var formid = url.searchParams.get("id");
 
 $(document).ready(function() {
 
     document.getElementById("addNewBtn").addEventListener("click", addNew);
-    printLocalData();
-    var serverUrl = "http://ec2-3-82-250-109.compute-1.amazonaws.com";
-    var url_string =  window.location.href;
-    var url = new URL(url_string);
-    var id = url.searchParams.get("id");
 
-    $.post( serverUrl+"/formdata", id, function( data ) {
+
+    $.post( serverUrl+"/formdata", formid, function( data ) {
         var jsondata = JSON.parse(data);
         var formdata = jsondata["formdata"].replace(/'/g,"\"");
         formdata = JSON.parse(formdata);
         dynamicFormFields = formdata["fields"];
+    });
+
+    $.post( serverUrl+"/inputformdata", formid, function( data ) {
+        updateLocal(data);
     });
 });
 
@@ -34,6 +38,13 @@ function printForm(data) {
     $("#formdata").val(formdata);
 }
 
+function updateLocal(data) {
+    var jsondata = JSON.parse(data);
+    for(var i = 0 ; i < jsondata.length ; i++) {
+        localDataStore.push(JSON.parse(jsondata[i]));
+    }
+    printLocalData();
+}
 
 function createDynamicForm() {
     var form = $("#dynamicForm");
@@ -77,6 +88,11 @@ function validateForm() {
     });
     console.log(formData);
     localDataStore.push(formData);
+    formData["inputid"] = formid;
+    alert(formData);
+    $.post( serverUrl+"/insertdata", JSON.stringify(formData), function( data ) {
+         alert("Success");
+    });
     printLocalData();
     return false;
 
@@ -85,13 +101,20 @@ function validateForm() {
 function printLocalData() {
     var space = $("#showData");
     space.text("");
+    var count = 0;
     for(var i = 0 ; i < localDataStore.length;i++) {
         var para = document.createElement("p");
         para.setAttribute("class","cust-data");
-        para.append("Name:"+localDataStore[i].name);
-        para.append(document.createElement('br'));
-        if(localDataStore[i].age)
-            para.append("Age:"+localDataStore[i].age);
+        var obj = localDataStore[i];
+        count=0;
+        for(var key in obj) {
+            if(obj[key]) {
+                para.append(key + " : " + obj[key]);
+                para.append(document.createElement('br'));
+            }
+            count++;
+            if(count==2) break;
+        }
         space.append(para);
     }
     $("#totalCount").text(localDataStore.length);

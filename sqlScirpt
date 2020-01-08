@@ -5,3 +5,5 @@ CREATE TABLE Forms (FormID int NOT NULL AUTO_INCREMENT, form_fields blob NOT NUL
 sudo pip install -U flask-cors
 
 sudo pip install mysql-connector
+
+CREATE TABLE inputdata (FormID int, data blob NOT NULL);
